@@ -46,6 +46,9 @@ const POLICY: Record<string, Record<string, string[]>> = {
   "genetigner.art@gmail.com": {
     "desktop-1": ["open-notepad", "restart-app-x"],
   },
+  "jarriaga18@gmail.com": {
+    "desktop-1": ["open-notepad"],
+  },
   // Add more users/firends here
   // "friend@gmail.com": {"desktop-1": ["open-notepad"]},
 };
