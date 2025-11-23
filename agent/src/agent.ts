@@ -1,7 +1,7 @@
 // agent.ts
 import "dotenv/config";
 import WebSocket from "ws";
-import { runCommand, CommandResult, CommandId } from "./agent-core.js"; // adjust path/extension based on your build
+import { runCommand, CommandResult, CommandId } from "./agent-core"; // adjust path/extension based on your build
 
 type RunMessage = {
   type: "RUN";
@@ -33,8 +33,13 @@ if (!AGENT_TOKEN) {
 }
 
 function connect() {
-  console.log(`Connecting to backend at ${BACKEND_WS_URL}...`);
-  const ws = new WebSocket(BACKEND_WS_URL);
+  const url = `${BACKEND_WS_URL}?agentId=${encodeURIComponent(AGENT_ID)}`;
+  console.log(`Connecting to backend at ${url}...`);
+  const ws = new WebSocket(url, {
+    headers: {
+      Authorization: `Bearer ${AGENT_TOKEN}`,
+    },
+  });
 
   ws.on("open", () => {
     console.log("WebSocket connected, registering agent...");
