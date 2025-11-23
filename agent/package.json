@@ -7,6 +7,7 @@
     "dev": "ts-node-dev --respawn --transpile-only src/agent.ts",
     "build": "tsc",
     "start": "node dist/agent.js",
+    "dev-local": "ts-node src/agent-cli.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
