@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: remote-backend
+    restart: unless-stopped
+    env_file:
+      - ./backend/.env
+    ports:
+      - "3001:3001"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        # These get baked into the build (NEXT_PUBLIC_*)
+        NEXT_PUBLIC_GOOGLE_CLIENT_ID: ${NEXT_PUBLIC_GOOGLE_CLIENT_ID}
+        NEXT_PUBLIC_API_BASE_URL: "http://localhost:3001"
+    container_name: remote-frontend
+    restart: unless-stopped
+    environment:
+      # still useful for runtime in case Next reads them
+      NEXT_PUBLIC_GOOGLE_CLIENT_ID: ${NEXT_PUBLIC_GOOGLE_CLIENT_ID}
+      NEXT_PUBLIC_API_BASE_URL: "http://localhost:3001"
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
